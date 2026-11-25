@@ -1,0 +1,268 @@
+// Estadísticas de gastos (032). Colores fijos por categoría (FR-016, plan D14):
+// los ocho primeros son la paleta categórica validada para daltonismo, el noveno
+// un verde azulado validado junto a ellos y "Otros" un gris neutro. Cada modo
+// tiene sus propios tonos, validados contra su superficie.
+:root {
+  --color-categoria-food: #2a78d6;
+  --color-categoria-transport: #eb6834;
+  --color-categoria-housing: #1baf7a;
+  --color-categoria-services: #eda100;
+  --color-categoria-health: #e87ba4;
+  --color-categoria-education: #008300;
+  --color-categoria-leisure: #6250d6;
+  --color-categoria-shopping: #e34948;
+  --color-categoria-pets: #0e8fa8;
+  --color-categoria-other: #8b8f8e;
+
+  // Ingresos (034): paleta propia, distinta de la de gastos (FR-022).
+  --color-ingreso-salary: #0b7a75;
+  --color-ingreso-freelance: #7a4fb5;
+  --color-ingreso-sale: #f6d21a;
+  --color-ingreso-refund: #3a6ea5;
+  --color-ingreso-other: #7d8a86;
+}
+
+:root[data-theme='dark'] {
+  --color-categoria-food: #3987e5;
+  --color-categoria-transport: #d95926;
+  --color-categoria-housing: #199e70;
+  --color-categoria-services: #c98500;
+  --color-categoria-health: #d55181;
+  --color-categoria-education: #0ca30c;
+  --color-categoria-leisure: #9085e9;
+  --color-categoria-shopping: #e66767;
+  --color-categoria-pets: #1fa5c0;
+  --color-categoria-other: #8a9a9f;
+
+  --color-ingreso-salary: #2fb5ae;
+  --color-ingreso-freelance: #a98ae0;
+  --color-ingreso-sale: #ffdc3a;
+  --color-ingreso-refund: #6a9fd8;
+  --color-ingreso-other: #9aa7a3;
+}
+
+.statistics-page {
+  max-width: 960px;
+}
+
+.statistics-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.statistics-total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 1rem;
+
+  span,
+  small {
+    color: var(--color-texto-suave);
+  }
+
+  strong {
+    font-size: 1.75rem;
+    color: var(--color-texto);
+  }
+}
+
+.statistics-excluded {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-superficie-fuerte);
+}
+
+.statistics-breakdown {
+  padding: 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+}
+
+.statistics-breakdown__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+}
+
+.statistics-breakdown__empty {
+  color: var(--color-texto-suave);
+}
+
+.statistics-breakdown__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .statistics-filters select {
+    flex: 1 1 0;
+  }
+}
+
+// Barra comparativa de ingresos y gastos, y dos columnas (034).
+:root {
+  --color-barra-ingreso: #1b8a4b;
+  --color-barra-gasto: #c9302c;
+}
+
+:root[data-theme='dark'] {
+  --color-barra-ingreso: #2fb36a;
+  --color-barra-gasto: #e5605c;
+}
+
+.statistics-comparison {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+  }
+}
+
+.statistics-bar {
+  display: flex;
+  width: 100%;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: var(--radio-control);
+  background: var(--color-superficie-fuerte);
+}
+
+.statistics-bar__segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.25rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+
+  &--income {
+    background: var(--color-barra-ingreso);
+  }
+
+  &--expenses {
+    background: var(--color-barra-gasto);
+  }
+}
+
+.statistics-comparison__figures {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem 2rem;
+  margin: 0.75rem 0 0;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  dt {
+    color: var(--color-texto-suave);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.statistics-comparison__income dd {
+  color: var(--color-barra-ingreso);
+}
+
+.statistics-comparison__expenses dd {
+  color: var(--color-barra-gasto);
+}
+
+.statistics-balance {
+  margin-left: auto;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.statistics-balance.is-positive dd {
+  color: var(--color-barra-ingreso);
+}
+
+.statistics-balance.is-negative dd {
+  color: var(--color-barra-gasto);
+}
+
+.statistics-comparison__currency {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--color-texto-suave);
+}
+
+.statistics-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.statistics-column {
+  min-width: 0;
+}
+
+.statistics-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  button {
+    flex: 1 1 0;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-superficie);
+    color: var(--color-texto);
+
+    &[aria-selected='true'] {
+      background: var(--color-texto);
+      color: var(--color-superficie);
+      font-weight: 600;
+    }
+  }
+}
+
+.statistics-tabs__label {
+  flex: 1 1 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-texto);
+  border-radius: var(--radio-control);
+  background: var(--color-texto);
+  color: var(--color-superficie);
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .statistics-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

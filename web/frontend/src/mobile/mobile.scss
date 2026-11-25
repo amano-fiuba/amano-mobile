@@ -1,0 +1,759 @@
+// App Android (mobile 001 + mobile 002).
+//
+// 1. Zonas seguras (mobile 001, FR-010): Capacitor 8 dibuja de borde a borde e inyecta
+//    --safe-area-inset-*. Las reglas viven bajo `.is-mobile-app`, así que la
+//    web no cambia.
+// 2. Diseño móvil (mobile 002): solo bajo `.is-mobile-app` (lo pone mobileLayout.js).
+//    Pestañas en lugar de pantallas largas, barra inferior y pasos.
+
+:root {
+  --sa-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --sa-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --sa-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --sa-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+  --tab-bar-h: 4rem;
+}
+
+// ---------------------------------------------------------------------------
+// 2. Diseño móvil
+// ---------------------------------------------------------------------------
+
+.is-mobile-app {
+  // Sin rebote ni resaltado gris al tocar: se siente como una app.
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+
+  body {
+    min-width: 0;
+    padding: 0 var(--sa-right) var(--sa-bottom) var(--sa-left);
+  }
+
+  .theme-toggle {
+    top: calc(1rem + var(--sa-top));
+  }
+
+  &[data-tab-bar='on'] body {
+    padding-bottom: calc(var(--tab-bar-h) + var(--sa-bottom));
+  }
+
+  // Las pantallas de detalle no muestran la barra ni el "+".
+  &[data-tab-bar='off'] .quick-actions {
+    display: none;
+  }
+
+  // ----- Barra superior ----------------------------------------------------
+
+  .app-header--mobile {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    padding: calc(0.45rem + var(--sa-top)) 0.75rem 0.45rem;
+
+    .app-header__brand img {
+      height: 1.85rem;
+    }
+
+    .global-search {
+      order: 0;
+      grid-column: auto;
+    }
+
+    .app-header__actions .app-menu {
+      position: static;
+    }
+
+    .app-header__actions .app-menu__panel--end {
+      top: 100%;
+      right: 0.75rem;
+      left: 0.75rem;
+      width: auto;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  }
+
+  .site-nav {
+    padding: calc(0.5rem + var(--sa-top)) 0.75rem 0.5rem;
+  }
+
+  // Sin sesión, la bienvenida ya ofrece registrarse e iniciar sesión, y el
+  // botón Atrás del teléfono vuelve: los enlaces de la barra sobran.
+  .site-nav__links {
+    display: none;
+  }
+
+  // ----- Barra inferior ----------------------------------------------------
+
+  .tab-bar {
+    position: fixed;
+    z-index: 850;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
+    height: calc(var(--tab-bar-h) + var(--sa-bottom));
+    padding: 0 var(--sa-right) var(--sa-bottom) var(--sa-left);
+    border-top: 1px solid var(--color-borde);
+    background: var(--color-superficie);
+    box-shadow: 0 -6px 18px color-mix(in srgb, var(--color-sombra) 8%, transparent);
+  }
+
+  .tab-bar__item,
+  button.tab-bar__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    min-height: 0;
+    padding: 0.35rem 0 0.4rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--color-texto-suave);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+
+    svg {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    &:hover {
+      background: transparent;
+      color: var(--color-texto);
+    }
+
+    &.is-active {
+      color: var(--color-acento-oscuro);
+    }
+
+    // Marca de la sección activa sobre el ícono.
+    &.is-active svg {
+      filter: drop-shadow(0 0 0 currentColor);
+    }
+
+    &.is-active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 2rem;
+      height: 3px;
+      border-radius: 0 0 3px 3px;
+      background: currentColor;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-acento);
+      outline-offset: -4px;
+    }
+  }
+
+  .tab-bar__item {
+    position: relative;
+  }
+
+  // El "+" de acciones rápidas se acomoda en el hueco central de la barra.
+  &[data-tab-bar='on'] .quick-actions {
+    z-index: 860;
+    bottom: calc(var(--tab-bar-h) - 3.25rem / 2 - 1.15rem + var(--sa-bottom));
+    // Centrado sin transform: los diálogos que abre el "+" son fijos y un
+    // transform los encerraría dentro de este contenedor.
+    right: 0;
+    left: 0;
+    width: fit-content;
+    margin-inline: auto;
+    align-items: center;
+
+    button.quick-actions__toggle {
+      box-shadow:
+        0 0 0 4px var(--color-superficie),
+        0 6px 16px color-mix(in srgb, var(--color-sombra) 30%, transparent);
+    }
+
+    .quick-actions__menu {
+      order: -1;
+    }
+  }
+
+  .snackbar {
+    bottom: calc(1rem + var(--sa-bottom));
+  }
+
+  &[data-tab-bar='on'] .snackbar {
+    bottom: calc(var(--tab-bar-h) + 1.5rem + var(--sa-bottom));
+  }
+
+  // ----- Menú "Más" (hoja inferior) ----------------------------------------
+
+  .more-sheet {
+    position: fixed;
+    z-index: 1050;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  button.more-sheet__backdrop {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: color-mix(in srgb, var(--color-sombra) 45%, transparent);
+    box-shadow: none;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-sombra) 45%, transparent);
+    }
+  }
+
+  .more-sheet__panel {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 0.6rem calc(1rem + var(--sa-right)) calc(1rem + var(--sa-bottom))
+      calc(1rem + var(--sa-left));
+    border-radius: 16px 16px 0 0;
+    background: var(--color-superficie);
+    animation: more-sheet-in 200ms ease-out;
+  }
+
+  .more-sheet__grip {
+    justify-self: center;
+    width: 2.5rem;
+    height: 4px;
+    margin-bottom: 0.4rem;
+    border-radius: 2px;
+    background: var(--color-borde);
+  }
+
+  .more-sheet__profile {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem;
+    border-radius: var(--radio-tarjeta);
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+
+    img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    span {
+      display: grid;
+    }
+
+    small {
+      color: var(--color-acento-oscuro);
+      font-size: 0.82rem;
+    }
+  }
+
+  .more-sheet__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      min-height: 3rem;
+      padding: 0 0.75rem;
+      border-radius: var(--radio-control);
+      color: var(--color-texto);
+      font-weight: 600;
+
+      &:active {
+        background: var(--color-superficie-fuerte);
+      }
+    }
+
+    svg {
+      width: 1.3rem;
+      height: 1.3rem;
+      color: var(--color-acento-oscuro);
+    }
+
+    li + li {
+      border-top: 1px solid var(--color-borde);
+    }
+  }
+
+  // ----- Pestañas (MobileTabs) ---------------------------------------------
+
+  .mobile-tabs {
+    display: grid;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .mobile-tabs__bar {
+    position: sticky;
+    z-index: 5;
+    top: calc(3.3rem + var(--sa-top));
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 999px;
+    background: var(--color-superficie);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  button.mobile-tabs__tab {
+    display: inline-flex;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 2.4rem;
+    padding: 0 0.85rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--color-texto-suave);
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &:hover {
+      background: transparent;
+      color: var(--color-texto);
+    }
+
+    &[aria-selected='true'] {
+      background: var(--color-acento-oscuro);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-acento);
+      outline-offset: 2px;
+    }
+  }
+
+  .mobile-tabs__badge {
+    min-width: 1.25rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, currentColor 18%, transparent);
+    font-size: 0.72rem;
+    line-height: 1.25rem;
+    text-align: center;
+  }
+
+  .mobile-tabs__panel {
+    min-width: 0;
+  }
+
+  // Pasos de un formulario: numerados y sin forma de píldora.
+  .mobile-tabs--steps > .mobile-tabs__bar {
+    position: static;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .mobile-tabs--steps button.mobile-tabs__tab {
+    flex: 1 1 0;
+    justify-content: flex-start;
+    padding: 0 0.25rem 0.5rem;
+    border-bottom: 3px solid var(--color-borde);
+    border-radius: 0;
+
+    &[aria-selected='true'] {
+      border-bottom-color: var(--color-acento-oscuro);
+      background: transparent;
+      color: var(--color-texto);
+    }
+  }
+
+  .mobile-tabs__step {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--color-superficie-fuerte);
+    font-size: 0.78rem;
+  }
+
+  .mobile-tabs__tab[aria-selected='true'] .mobile-tabs__step {
+    background: var(--color-acento-oscuro);
+    color: #fff;
+  }
+
+  // El título de cada tarjeta repite el de la pestaña: queda solo el enlace.
+  .mobile-tabs__panel > .main-card > .main-card__header h2,
+  .mobile-tabs__panel > .group-detail__section > .group-detail__section-header h2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .mobile-tabs__panel > .main-card > .main-card__header,
+  .mobile-tabs__panel > .group-detail__section > .group-detail__section-header {
+    justify-content: flex-end;
+  }
+
+  // ----- Pantallas ---------------------------------------------------------
+
+  // Las tarjetas de página ocupan todo el ancho, sin márgenes de escritorio.
+  .page {
+    width: auto;
+    max-width: none;
+    margin: 0.75rem;
+    padding: 1.1rem;
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.45rem;
+    }
+  }
+
+  .home-link {
+    display: none;
+  }
+
+  .main-page--mobile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    width: auto;
+    margin: 0.75rem;
+  }
+
+  .friends-page,
+  .group-detail {
+    grid-template-columns: minmax(0, 1fr);
+    width: auto;
+    margin: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .friends-page__lead {
+    display: none;
+  }
+
+  .friends-page__header {
+    padding: 0.9rem 1.1rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+  }
+
+  // Grupo: cabecera compacta; foto, nombre y acciones en poco alto.
+  .group-hero {
+    gap: 0.75rem;
+    padding: 0.9rem;
+  }
+
+  .group-hero__identity {
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0.85rem;
+
+    .group-photo {
+      flex: none;
+      width: auto;
+    }
+
+    .group-photo__frame,
+    .group-photo__frame img {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+  }
+
+  .group-detail .group-hero__text h1 {
+    font-size: 1.3rem;
+  }
+
+  .group-hero__side {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .group-hero__actions {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    gap: 0.4rem;
+
+    .group-action {
+      flex: 1 1 auto;
+      min-height: 2.4rem;
+      padding: 0 0.7rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  .mobile-tabs.group-board {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  // Formularios: los botones quedan fijos abajo, siempre a mano.
+  .expense-actions {
+    position: sticky;
+    z-index: 4;
+    bottom: 0;
+    margin: 1rem -1.1rem -1.1rem;
+    padding: 0.75rem 1.1rem calc(0.75rem + var(--sa-bottom));
+    border-top: 1px solid var(--color-borde);
+    background: var(--color-superficie);
+    border-radius: 0 0 var(--radio-tarjeta) var(--radio-tarjeta);
+  }
+
+  button.expense-actions__next {
+    margin-left: auto;
+  }
+
+  .group-expense__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  // Actividad: balance compacto y filtros plegables. "Nuevo gasto" ya está en
+  // el botón "+" de la barra inferior.
+  .activity-page__toolbar .buttonLink {
+    display: none;
+  }
+
+  .activity-view {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .activity-page .balance-card {
+    padding: 0.75rem 0.9rem;
+  }
+
+  .activity-page .balance-card__figures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin: 0;
+
+    dt {
+      font-size: 0.72rem;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 0.86rem;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .activity-search__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+
+  .activity-search__selects {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  button.activity-search__toggle {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--color-borde);
+    background: var(--color-superficie);
+    color: var(--color-texto);
+    box-shadow: none;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &[aria-expanded='true'] {
+      border-color: var(--color-acento-oscuro);
+      color: var(--color-acento-oscuro);
+    }
+
+    &.is-filtered::after {
+      content: '';
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--color-acento);
+    }
+  }
+
+  // Estadísticas: una columna por pestaña.
+  .statistics-page .mobile-tabs .statistics-column {
+    min-width: 0;
+  }
+
+  // ----- Bienvenida --------------------------------------------------------
+
+  .mobile-welcome {
+    display: grid;
+    align-content: center;
+    gap: 1.25rem;
+    min-height: calc(100dvh - 4rem - var(--sa-top) - var(--sa-bottom));
+    padding: 1.5rem 1.5rem calc(1.5rem + var(--sa-bottom));
+
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      line-height: 1.2;
+      text-wrap: balance;
+    }
+  }
+
+  .mobile-welcome__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-acento-oscuro);
+    font-size: 1.4rem;
+    font-weight: 800;
+
+    img {
+      width: auto;
+      height: 3rem;
+      border-radius: var(--radio-control);
+    }
+  }
+
+  .mobile-welcome__points {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-texto-suave);
+
+    li {
+      display: flex;
+      gap: 0.6rem;
+      align-items: baseline;
+    }
+
+    li::before {
+      content: '';
+      flex: none;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--color-acento);
+      transform: translateY(-0.1rem);
+    }
+  }
+
+  .mobile-welcome__actions {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+
+    .buttonLink {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+    }
+  }
+
+  .mobile-welcome__secondary {
+    text-align: center;
+  }
+}
+
+@keyframes more-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-mobile-app .more-sheet__panel {
+    animation: none;
+  }
+}
+
+// Sprint 6: tema y cierre de sesión dentro del menú "Más".
+.is-mobile-app {
+  .more-sheet__footer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-borde);
+  }
+
+  .more-sheet__theme,
+  .more-sheet__logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    color: var(--color-texto);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  // Los botones vienen con el estilo blanco de la barra superior.
+  .more-sheet__footer button.app-header__action {
+    flex: none;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1px solid var(--color-borde);
+    background: var(--color-superficie-fuerte);
+    color: var(--color-acento-oscuro);
+
+    svg {
+      stroke: currentColor;
+    }
+  }
+
+  // La bandeja de la campana ocupa el ancho del teléfono.
+  .app-header--mobile .app-menu__panel--end {
+    max-height: 75dvh;
+  }
+}

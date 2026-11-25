@@ -1,0 +1,27 @@
+{
+  "name": "amano-mobile",
+  "private": true,
+  "version": "0.7.0",
+  "description": "App Android de A mano: empaqueta el frontend del repositorio web (amano) con Capacitor",
+  "type": "module",
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "setup:android": "node scripts/build-web.mjs && node scripts/setup-android.mjs",
+    "sync": "node scripts/build-web.mjs && node scripts/setup-android.mjs",
+    "open": "cap open android",
+    "android": "npm run sync && cap run android",
+    "apk": "npm run sync && cd android && ./gradlew assembleDebug && cp app/build/outputs/apk/debug/app-debug.apk ../amano.apk && echo && echo \"APK: amano.apk\""
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/push-notifications": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

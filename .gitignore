@@ -1,0 +1,16 @@
+node_modules/
+# Generados por `cap sync` (se recrean en cada build)
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/capacitor-cordova-android-plugins/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/google-services.json
+
+# Salida del build web y APK copiado por `npm run apk`
+www/
+amano.apk
+# Submódulo con el repositorio web (ver README)

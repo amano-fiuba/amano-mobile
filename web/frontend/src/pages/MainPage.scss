@@ -1,0 +1,673 @@
+// Pantalla principal con sesión (specs/015-main-screen).
+.main-page {
+  display: grid;
+  grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr) minmax(15rem, 20rem);
+  align-items: start;
+  gap: 1rem;
+  width: calc(100% - 2rem);
+  max-width: 76rem;
+  margin: 1.25rem auto 5.5rem;
+}
+
+.main-page__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.main-page__profile-column {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.main-page__side {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.main-card {
+  min-width: 0;
+  padding: 1.1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+
+  h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  p {
+    margin: 0.5rem 0 0;
+    font-size: 0.92rem;
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+}
+
+.main-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+
+  a {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+}
+
+.main-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li + li {
+    border-top: 1px solid var(--color-borde);
+  }
+}
+
+.main-profile {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  text-align: center;
+
+  img {
+    width: 5.25rem;
+    height: 5.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.55rem;
+    justify-self: stretch;
+    margin: 0.3rem 0 0.2rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--color-borde);
+    text-align: left;
+  }
+
+  dt {
+    color: var(--color-texto-suave);
+    font-size: 0.78rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+.main-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.4rem;
+  border-radius: var(--radio-control);
+  color: var(--color-texto);
+
+  &:hover {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+}
+
+.main-group img,
+.main-group__mark {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radio-tarjeta);
+  object-fit: cover;
+}
+
+.main-group__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-superficie-fuerte);
+  color: var(--color-acento-oscuro);
+  font-weight: 700;
+}
+
+.main-group__body {
+  display: grid;
+  min-width: 0;
+
+  strong {
+    overflow-wrap: anywhere;
+  }
+}
+
+.main-expense {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+
+  > span:first-child {
+    display: grid;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.main-expense__amount--income {
+  color: var(--color-ingreso, #1b7a3a);
+}
+
+:root[data-theme='dark'] .main-expense__amount--income {
+  --color-ingreso: #5fd08a;
+}
+
+.main-expense__amount--expense {
+  color: var(--color-error);
+}
+
+a.main-expense {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--color-superficie-fuerte);
+  }
+}
+
+.main-expense__amount {
+  display: grid;
+  flex: 0 0 auto;
+  justify-items: end;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+// Equivalent in one of the user's preferred currencies, below the original
+// amount (personal activity screen).
+.main-expense__conversion {
+  color: var(--color-texto-suave);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.main-request {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.6rem 0;
+
+  small {
+    overflow-wrap: anywhere;
+  }
+
+  div {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  button {
+    flex: 1;
+    justify-content: center;
+    min-height: 0;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+button.main-request__reject {
+  border: 1px solid var(--color-borde);
+  background: transparent;
+  color: var(--color-texto);
+
+  &:hover {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+}
+
+@media (max-width: 960px) {
+  .main-page {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 1.5rem);
+  }
+}
+
+// Actividad personal (031): el mismo ancho que "Mis grupos", así el buscador
+// entra completo junto al selector de año.
+// Más ancha que "Mis grupos" para que el campo, el mes y el año entren en una
+// fila (031, sesión 4).
+.activity-page {
+  max-width: 880px;
+}
+
+// Control Gastos | Ingresos de la actividad personal (033): mismos botones que la
+// paginación (borde suave, el activo en oscuro) y, a su lado, el alta de la vista
+// activa con el estilo de botón principal de la app (.buttonLink). La insignia
+// "Proyectado" de un ingreso futuro usa la forma de los chips de rol.
+.activity-page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.activity-view {
+  display: inline-flex;
+  gap: 0.3rem;
+
+  button {
+    justify-content: center;
+    padding: 0.45rem 1rem;
+    border-color: var(--color-borde);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-weight: 600;
+
+    &:hover:not(:disabled):not([aria-pressed='true']) {
+      background: var(--color-superficie-fuerte);
+      color: var(--color-texto);
+    }
+
+    &[aria-pressed='true'] {
+      border-color: var(--color-texto);
+      background: var(--color-texto);
+      color: var(--color-superficie);
+    }
+  }
+}
+
+.activity-badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-acento) 18%, transparent);
+  color: var(--color-acento-oscuro);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+// Tarjeta de balance neto (033): ingresos, gastos y balance en una fila, con el neto
+// a la derecha; en pantallas angostas se apila en una columna. Ingresos en verde,
+// gastos en rojo y neto verde (positivo) o rojo (negativo). El neto es la cifra
+// destacada, con signo explícito, ícono y texto para el caso negativo (no solo color).
+.balance-card {
+  --color-ingreso: #1b7a3a;
+  margin: 0 0 1rem;
+}
+
+:root[data-theme='dark'] .balance-card {
+  --color-ingreso: #5fd08a;
+}
+
+.balance-card__figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+
+  dt {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+}
+
+.balance-card__income {
+  color: var(--color-ingreso);
+}
+
+.balance-card__expenses {
+  color: var(--color-error);
+}
+
+.balance-card__net {
+  margin-left: auto;
+  text-align: right;
+
+  dd {
+    color: var(--color-ingreso);
+    font-size: 1.35rem;
+  }
+}
+
+.balance-card__net--negative dd {
+  color: var(--color-error);
+}
+
+.balance-card__projected {
+  color: var(--color-texto-suave);
+}
+
+.balance-card__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .balance-card__figures {
+    flex-direction: column;
+  }
+}
+
+// Buscador de la actividad personal (031): campo con lupa (mismo aspecto que el
+// buscador de la barra superior), mes y año en una fila; en pantallas angostas
+// el campo ocupa todo el ancho y los selectores quedan debajo, lado a lado.
+.activity-search {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.activity-search__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-search__field {
+  display: flex;
+  flex: 1 1 16rem;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0 0.9rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  color: var(--color-texto-suave);
+
+  svg {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  input {
+    width: 100%;
+    min-width: 0;
+    height: 2.4rem;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-texto);
+    font: inherit;
+
+    &::placeholder {
+      color: var(--color-texto-suave);
+    }
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 1px;
+  }
+}
+
+.activity-search__selects {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 600px) {
+  .activity-search__field {
+    flex-basis: 100%;
+  }
+
+  .activity-search__selects {
+    flex: 1 1 100%;
+
+    select {
+      flex: 1 1 0;
+    }
+  }
+}
+
+// Mientras carga otra página, la anterior queda atenuada (no salta la paginación).
+.activity-results[aria-busy='true'] .expense-rows {
+  opacity: 0.55;
+  transition: opacity 160ms ease;
+}
+
+// Paginación de la actividad (031, FR-021): Anterior, números y Siguiente.
+.activity-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 1rem 0 0;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  button {
+    min-width: 2.4rem;
+    justify-content: center;
+    padding: 0.45rem 0.7rem;
+    border-color: var(--color-borde);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background: var(--color-superficie-fuerte);
+      color: var(--color-texto);
+    }
+
+    &[aria-current='page'] {
+      border-color: var(--color-texto);
+      background: var(--color-texto);
+      color: var(--color-superficie);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.45;
+    }
+  }
+}
+
+.activity-pagination__gap {
+  align-self: center;
+  padding: 0 0.2rem;
+  color: var(--color-texto-suave);
+}
+
+.activity-search__notice,
+.activity-search__count {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.activity-search__empty {
+  font-weight: 600;
+}
+
+.activity-search__error {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+}
+
+// Monto a la derecha del título dentro de la tarjeta de cada gasto.
+.expense-row .group-row__title {
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+// Detalle de un gasto personal (031, US3).
+.expense-detail__amount {
+  margin: 0;
+  color: var(--color-texto);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.expense-detail__conversions {
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.expense-detail__data {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.45rem 1rem;
+  margin: 1rem 0 0;
+
+  dt {
+    color: var(--color-texto-suave);
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+// Balance del mes actual en la pantalla principal: ingresos en verde, egresos en
+// rojo y el balance neto destacado (mismo estilo de tarjeta que el perfil).
+.monthly-balance {
+  --color-ingreso: #1b7a3a;
+  display: grid;
+  gap: 0.6rem;
+
+  dl {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+  }
+
+  dl > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  dt {
+    color: var(--color-texto-suave);
+    font-size: 0.78rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+:root[data-theme='dark'] .monthly-balance {
+  --color-ingreso: #5fd08a;
+}
+
+.monthly-balance__income {
+  color: var(--color-ingreso);
+}
+
+.monthly-balance__expenses {
+  color: var(--color-error);
+}
+
+.monthly-balance__net {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--color-borde);
+
+  dt {
+    color: var(--color-texto);
+    font-weight: 600;
+  }
+
+  dd {
+    color: var(--color-acento-oscuro);
+    font-size: 1.05rem;
+  }
+}
+
+.monthly-balance__net--negative dd {
+  color: var(--color-error);
+}
+
+.monthly-balance__skeleton {
+  display: inline-block;
+  width: 5.5rem;
+  height: 1em;
+  border-radius: 4px;
+  background: var(--color-superficie-fuerte);
+  animation: monthly-balance-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes monthly-balance-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monthly-balance__skeleton {
+    animation: none;
+  }
+}
+
+.monthly-balance__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// Deep link de notificación de deuda (035 FR-017): resaltado efímero de 2 s.
+.expense-rows li[data-highlighted='true'] {
+  outline: 2px solid var(--color-primario, #356);
+  outline-offset: 2px;
+  background: var(--color-fondo-sutil, transparent);
+}

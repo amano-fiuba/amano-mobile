@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Solo en builds de depuración (amano-mobile specs/001-android-app, D9 / FR-014):
+     permite HTTP sin TLS para hablar con el backend local por `adb reverse`.
+     El build de release sigue exigiendo HTTPS. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:usesCleartextTraffic="true"
+        tools:replace="android:usesCleartextTraffic" />
+</manifest>

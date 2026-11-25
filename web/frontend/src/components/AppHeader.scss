@@ -1,0 +1,502 @@
+// Barra superior con sesión y botón "+" (specs/015-main-screen).
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: grid;
+  grid-template-columns: auto minmax(0, 34rem) auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 1.25rem;
+  background: var(--color-barra);
+  color: #fff;
+}
+
+.app-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-weight: 800;
+  white-space: nowrap;
+
+  &:hover {
+    color: #fff;
+  }
+
+  img {
+    display: block;
+    height: 2rem;
+    width: auto;
+    border-radius: var(--radio-control);
+  }
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.app-header__action,
+button.app-header__action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 14%);
+  color: #fff;
+  box-shadow: none;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &:hover,
+  &.is-active {
+    background: rgb(255 255 255 / 28%);
+    color: #fff;
+  }
+
+  // La foto tapa el fondo: el estado se marca con un aro.
+  &:hover img,
+  &.is-active img {
+    box-shadow: 0 0 0 2px #fff;
+  }
+}
+
+.app-header__brand:focus-visible,
+.app-header__action:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.app-header__badge {
+  position: absolute;
+  top: -0.15rem;
+  right: -0.15rem;
+  min-width: 1.15rem;
+  padding: 0 0.25rem;
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-error-tono);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.15rem;
+  text-align: center;
+}
+
+.app-menu {
+  position: relative;
+}
+
+.app-menu__panel {
+  position: absolute;
+  z-index: 950;
+  top: calc(100% + 0.5rem);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.85rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-sombra) 22%, transparent);
+  color: var(--color-texto);
+
+  h2 {
+    margin: 0 0 0.4rem;
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  ul {
+    margin: 0 0 0.6rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+:root[data-theme='dark'] .app-menu__panel--end .notifications-menu__footer {
+  a:hover,
+  a:focus-visible {
+    background: #1d323a;
+    color: #ffffff;
+  }
+}
+
+.app-menu__panel--end {
+  right: 0;
+  width: min(20rem, calc(100vw - 1.5rem));
+
+  li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--color-borde);
+    font-size: 0.9rem;
+  }
+
+  // Las filas llegan hasta los bordes del panel; sus separadores son propios.
+  .notifications-menu__list {
+    margin: 0 -0.85rem;
+    border-top: 1px solid var(--color-borde);
+    max-height: 22rem;
+    overflow-y: auto;
+
+    li {
+      padding: 0.65rem 0.85rem 0.65rem 1.75rem;
+      border-bottom: 0;
+      font-size: inherit;
+    }
+
+    li::before {
+      top: 1rem;
+      left: 0.75rem;
+    }
+  }
+
+  .notifications-menu__footer {
+    display: flex;
+    justify-content: center;
+    margin: 0 -0.85rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--color-borde);
+    font-weight: 600;
+
+    a:hover,
+    a:focus-visible {
+      border-radius: var(--radio-control);
+      background: #f0faf8;
+      color: #12343b;
+      outline: none;
+    }
+  }
+
+  .app-notification {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    img {
+      flex: 0 0 auto;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+
+.global-search {
+  position: relative;
+  min-width: 0;
+
+  form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.9rem;
+    border-radius: var(--radio-tarjeta);
+    background: var(--color-superficie);
+    color: var(--color-texto-suave);
+  }
+
+  svg {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  input {
+    width: 100%;
+    min-width: 0;
+    height: 2.4rem;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-texto);
+    font: inherit;
+  }
+
+  form:focus-within {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 1px;
+  }
+}
+
+.global-search__results {
+  left: 0;
+  right: 0;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem;
+    border-radius: var(--radio-control);
+    color: var(--color-texto);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-superficie-fuerte);
+      color: var(--color-texto);
+    }
+  }
+
+  img {
+    flex: 0 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  span {
+    display: grid;
+    min-width: 0;
+  }
+
+  .global-search__mark {
+    flex: 0 0 auto;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radio-control);
+    background: var(--color-superficie-fuerte);
+    color: var(--color-acento-oscuro);
+    font-weight: 700;
+    object-fit: cover;
+  }
+
+  strong,
+  small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-weight: 400;
+  }
+
+  // "Ver más": link al pie de cada sección, alineado a la derecha.
+  .global-search__more {
+    display: block;
+    width: fit-content;
+    margin: 0.1rem 0 0.3rem auto;
+    padding: 0.3rem 0.4rem;
+    color: var(--color-acento-oscuro);
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-acento-oscuro);
+      text-decoration: underline;
+    }
+  }
+}
+
+.quick-actions {
+  position: fixed;
+  z-index: 800;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+button.quick-actions__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-barra);
+  color: #fff;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-sombra) 32%, transparent);
+
+  &:hover {
+    background: var(--color-barra);
+    color: #fff;
+    filter: brightness(1.2);
+  }
+
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    transition: transform 150ms ease;
+  }
+
+  &.is-open svg {
+    transform: rotate(45deg);
+  }
+}
+
+.quick-actions__menu {
+  min-width: 12rem;
+  margin: 0;
+  padding: 0.35rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-sombra) 22%, transparent);
+  list-style: none;
+}
+
+// Ítems del menú y del submenú "Registrar gasto" (027): enlaces y botones con
+// el mismo aspecto, sin el relieve de los botones (ver $quietos en detalles.scss).
+.quick-actions__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 0;
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--color-texto);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+
+  svg {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &.is-active {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+}
+
+// Flecha del ítem que abre el submenú, al final de la fila.
+.quick-actions__parent {
+  position: relative;
+
+  > .quick-actions__item svg {
+    margin-left: auto;
+    color: var(--color-texto-suave);
+  }
+}
+
+// Submenú a la derecha, alineado por abajo para crecer hacia arriba (el botón
+// "+" está pegado al borde inferior de la pantalla).
+.quick-actions__submenu {
+  position: absolute;
+  bottom: -0.35rem;
+  left: calc(100% + 0.6rem);
+  min-width: 14rem;
+
+  // Puente invisible: el puntero cruza el hueco sin salir del ítem.
+  &::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.7rem;
+    width: 0.7rem;
+    content: '';
+  }
+
+  // Si no entra a la derecha (FR-003), se ubica encima del ítem.
+  &--flip {
+    bottom: calc(100% + 0.35rem);
+    left: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.quick-actions__back {
+  color: var(--color-texto-suave);
+}
+
+:root[data-theme='dark'] {
+  .global-search form {
+    background: var(--color-superficie-fuerte);
+  }
+
+  button.quick-actions__toggle,
+  button.quick-actions__toggle:hover {
+    background: var(--color-acento-tono);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.quick-actions__toggle svg {
+    transition: none;
+  }
+}
+
+// Con siete accesos, en pantallas chicas el nombre cede lugar al logo.
+@media (max-width: 440px) {
+  .app-header__brand {
+    font-size: 0;
+  }
+
+  .app-header__actions {
+    gap: 0.2rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-header {
+    grid-template-columns: 1fr auto;
+    padding: 0.5rem 0.75rem;
+  }
+
+  // Anclado a la barra: desde la campanita se saldría de la pantalla.
+  .app-header__actions .app-menu {
+    position: static;
+  }
+
+  .app-header__actions .app-menu__panel--end {
+    top: 100%;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+  }
+
+  .global-search {
+    order: 3;
+    grid-column: 1 / -1;
+  }
+
+  .app-header__action,
+  button.app-header__action {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

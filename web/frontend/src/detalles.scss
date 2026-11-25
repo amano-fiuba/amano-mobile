@@ -1,0 +1,229 @@
+// Detalles sobre la estética actual: botones en relieve, patrón de fondo y los
+// colores del logo. El turquesa es la base; el naranja marca interacción.
+// Se importa después de los estilos de cada pantalla.
+
+$quietos: ".text-button, .member-menu__item, .member-menu__trigger, .group-danger, .debt-card__toggle, .app-header__action, .quick-actions__toggle, .quick-actions__item, .date-field__toggle, .date-field__nav, .date-field__day, .group-photo__change, .form-success, .friend-card__delete, .confirm-modal__close, .people-chip button, .notification-row__body, .notification-row__mark, .notifications-page__action, .notifications-page__tab, .tab-bar__item, .mobile-tabs__tab, .more-sheet__backdrop, .activity-search__toggle";
+$secundarios: ".group-action, .home-cta--secondary, .user-card__action, .friend-request-card__reject, .friends-requests__retry, .main-request__reject, .delete-friend-dialog__cancel, .choice-dialog__cancel, .choice-dialog__retry, .expense-actions__cancel";
+$primarios: "button:not(#{$quietos}, #{$secundarios}), .buttonLink, .home-cta:not(.home-cta--secondary)";
+$tiempo: 120ms;
+
+:root {
+  // Del logo. Sobre naranja el texto va oscuro: el blanco no llega a 3:1.
+  --color-naranja: #f77c42;
+  --color-naranja-claro: #fab370;
+  --color-sobre-naranja: #12343b;
+  --color-turquesa: #09a0a2;
+  --tecla-luz: color-mix(in srgb, white 28%, transparent);
+  --tecla-sombra: color-mix(in srgb, var(--color-texto) 26%, transparent);
+  --tecla-borde: color-mix(in srgb, var(--color-texto) 62%, black);
+  --tecla-borde-hover: var(--color-naranja);
+  --tecla-pulsada: var(--color-naranja);
+  --tecla-pulsada-texto: var(--color-sobre-naranja);
+  --tecla-borde-error: color-mix(in srgb, var(--color-error) 62%, black);
+  --color-patron: color-mix(in srgb, var(--color-turquesa) 20%, transparent);
+}
+
+:root[data-theme='dark'] {
+  --color-naranja: #fb8f46;
+  --color-sobre-naranja: #0e1b22;
+  --color-turquesa: #24a0b3;
+  --tecla-luz: color-mix(in srgb, white 45%, transparent);
+  --tecla-sombra: color-mix(in srgb, black 55%, transparent);
+  --tecla-borde: color-mix(in srgb, var(--color-texto) 58%, black);
+  --color-patron: color-mix(in srgb, var(--color-turquesa) 22%, transparent);
+}
+
+// ---- Teclas ----
+
+#{$primarios} {
+  --tecla-actual: var(--tecla-borde);
+
+  box-shadow: inset 0 1px 0 var(--tecla-luz), 0 3px 0 var(--tecla-actual), 0 9px 14px -8px var(--tecla-sombra);
+  transition:
+    background-color $tiempo ease,
+    color $tiempo ease,
+    box-shadow $tiempo ease,
+    transform $tiempo ease;
+
+  &:hover:not(:disabled) {
+    --tecla-actual: var(--tecla-borde-hover);
+
+    box-shadow: inset 0 1px 0 var(--tecla-luz), 0 4px 0 var(--tecla-actual), 0 11px 16px -8px var(--tecla-sombra);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--tecla-pulsada);
+    background: var(--tecla-pulsada);
+    box-shadow: inset 0 1px 0 var(--tecla-luz), 0 0 0 var(--tecla-actual);
+    color: var(--tecla-pulsada-texto);
+    transform: translateY(3px);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+// Confirmar de ConfirmModal: tecla roja, como toda acción destructiva
+// (023 FR-002; los colores base están en index.scss).
+.confirm-modal__confirm {
+  --tecla-borde: var(--tecla-borde-error);
+  --tecla-borde-hover: var(--tecla-borde-error);
+  --tecla-pulsada: var(--color-error);
+  --tecla-pulsada-texto: var(--color-superficie);
+}
+
+#{$secundarios} {
+  box-shadow: 0 3px 0 var(--color-borde);
+  transition:
+    background-color $tiempo ease,
+    border-color $tiempo ease,
+    color $tiempo ease,
+    box-shadow $tiempo ease,
+    transform $tiempo ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-naranja);
+    box-shadow: 0 4px 0 var(--color-naranja);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--color-naranja);
+    background: color-mix(in srgb, var(--color-naranja) 22%, var(--color-superficie));
+    box-shadow: 0 0 0 var(--color-naranja);
+    color: var(--color-texto);
+    transform: translateY(3px);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+// "Salir" del grupo: secundario destructivo, con borde, sombra y presionado en
+// rojo en vez de naranja (023 FR-002).
+.group-action.group-action--danger {
+  &:hover:not(:disabled) {
+    border-color: var(--color-error);
+    box-shadow: 0 4px 0 var(--color-error);
+    color: var(--color-error);
+  }
+
+  &:active:not(:disabled) {
+    border-color: var(--color-error);
+    background: color-mix(in srgb, var(--color-error) 18%, var(--color-superficie));
+    box-shadow: 0 0 0 var(--color-error);
+    color: var(--color-error);
+  }
+}
+
+button.quick-actions__toggle {
+  box-shadow: inset 0 1px 0 var(--tecla-luz), 0 4px 0 var(--tecla-borde), 0 12px 18px -8px var(--tecla-sombra);
+  transition: box-shadow $tiempo ease, transform $tiempo ease;
+
+  &:hover {
+    box-shadow: inset 0 1px 0 var(--tecla-luz), 0 4px 0 var(--color-naranja), 0 12px 18px -8px var(--tecla-sombra);
+  }
+
+  &:active,
+  &.is-open,
+  &.is-open:hover {
+    background: var(--color-naranja);
+    color: var(--color-sobre-naranja);
+  }
+
+  &:active {
+    box-shadow: inset 0 1px 0 var(--tecla-luz), 0 0 0 var(--tecla-borde);
+    transform: translateY(4px);
+  }
+}
+
+.group-photo__change {
+  box-shadow: inset 0 1px 0 var(--tecla-luz), 0 2px 0 var(--tecla-borde);
+
+  &:active {
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+}
+
+// AppHeader.scss fija el color del botón "+" en modo oscuro con más especificidad.
+:root[data-theme='dark'] button.quick-actions__toggle:active,
+:root[data-theme='dark'] button.quick-actions__toggle.is-open,
+:root[data-theme='dark'] button.quick-actions__toggle.is-open:hover {
+  background: var(--color-naranja);
+  color: var(--color-sobre-naranja);
+}
+
+// ---- Detalles en naranja ----
+
+.app-header__action:hover,
+.app-header__action.is-active {
+  box-shadow: inset 0 0 0 2px var(--color-naranja-claro);
+}
+
+.app-header__action:hover img,
+.app-header__action.is-active img {
+  box-shadow: 0 0 0 2px var(--color-naranja-claro);
+}
+
+.role-chip--you {
+  background: color-mix(in srgb, var(--color-naranja) 24%, transparent);
+  color: var(--color-texto);
+}
+
+.group-row:hover {
+  border-color: var(--color-naranja);
+}
+
+// ---- Patrón de fondo ----
+// Es una máscara y no una imagen para tomar el color de las variables en
+// ambos temas. Queda detrás de las tarjetas y no recibe clics.
+
+@mixin patron {
+  background: var(--color-patron);
+  content: "";
+  mask: url("./assets/patron-fondo.svg") 0 0 / 340px 340px repeat;
+  pointer-events: none;
+}
+
+body::before {
+  @include patron;
+
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+}
+
+// La landing tiene fondo propio, que taparía al del body.
+.home {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    @include patron;
+
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  body::before,
+  .home::before {
+    mask-size: 255px 255px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #{$primarios},
+  #{$secundarios},
+  button.quick-actions__toggle {
+    transition: none;
+  }
+}

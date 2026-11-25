@@ -1,0 +1,183 @@
+.notifications-page {
+  --notif-ui-hover-bg: #f0faf8;
+  --notif-ui-hover-text: #12343b;
+
+  max-width: 52rem;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  // Acciones de la pantalla como enlaces, sin caja ni relieve.
+  &__action,
+  &__action:hover,
+  &__action:active {
+    padding: 0.35rem 0;
+    border: 0;
+    background: none;
+    color: var(--color-acento-oscuro);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transform: none;
+  }
+
+  &__action:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  &__action:focus-visible,
+  &__tab:focus-visible {
+    border-radius: var(--radio-control);
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+  }
+
+  &__action--more {
+    display: flex;
+    margin: 0.75rem auto 0;
+  }
+
+  // Botones de formulario: preferencias y reintento.
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control, 6px);
+    background: #ffffff;
+    color: var(--notif-ui-hover-text);
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      background: var(--notif-ui-hover-bg);
+      border-color: #0b7f82;
+      color: var(--notif-ui-hover-text);
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    &--primary {
+      border-color: #0b7f82;
+      background: #0b7f82;
+      color: #ffffff;
+
+      &:hover:not(:disabled),
+      &:focus-visible:not(:disabled) {
+        background: #0a6f72;
+        border-color: #0a6f72;
+        color: #ffffff;
+      }
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-borde);
+  }
+
+  &__tab,
+  &__tab:hover,
+  &__tab:active {
+    margin-bottom: -1px;
+    padding: 0.5rem 0.1rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: none;
+    color: var(--color-texto-suave);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transform: none;
+  }
+
+  &__tab:hover {
+    color: var(--color-texto);
+  }
+
+  &__tab.is-active {
+    border-bottom-color: var(--color-acento);
+    color: var(--color-texto);
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-tarjeta);
+    list-style: none;
+  }
+
+  &__state {
+    padding: 1.25rem;
+    border: 1px dashed var(--color-borde);
+    border-radius: var(--radio-tarjeta, 8px);
+    color: var(--notif-ui-hover-text);
+    text-align: center;
+
+    &--error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      border-color: #b42336;
+    }
+  }
+}
+
+:root[data-theme='dark'] .notifications-page {
+  --notif-ui-hover-bg: #1d323a;
+  --notif-ui-hover-text: #ffffff;
+
+  &__button {
+    background: #16262f;
+    border-color: #2e4652;
+
+    &--primary {
+      background: #2fb3c0;
+      border-color: #2fb3c0;
+      color: #0e1b22;
+
+      &:hover:not(:disabled),
+      &:focus-visible:not(:disabled) {
+        background: #61c9d2;
+        border-color: #61c9d2;
+        color: #0e1b22;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .notifications-page__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

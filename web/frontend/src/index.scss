@@ -1,0 +1,1674 @@
+// Tema global: paleta turquesa/petróleo y naranja tomada del logo, Montserrat.
+:root {
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+/* Turquesa del logo — variables base */
+:root {
+  color-scheme: light;
+  --color-fondo: #eaf5f4;
+  --color-superficie: #ffffff;
+  --color-superficie-fuerte: #d3ebe8;
+  --color-texto: #12343b;
+  --color-texto-suave: #4f6f72;
+  --color-borde: #bcdcd8;
+  --color-acento: #0b7f82;
+  --color-acento-oscuro: #0a5f66;
+  --color-oliva: #668b83;
+  --color-error: #b42336;
+  // Tono base fijo: si apuntara a var(--color-acento), el modo oscuro
+  // (que redefiniría --color-acento en función del tono) crearía una
+  // referencia circular entre variables y las invalidaría a todas.
+  --color-acento-tono: #0b7f82;
+  --color-error-tono: #b42336;
+  --color-barra: #0a5f66;
+  // Sombras teñidas con el petróleo del logo en vez de gris azulado.
+  --color-sombra: rgb(8 40 44);
+  // Esquinas de toda la app: cambiar estos dos valores alcanza.
+  --radio-tarjeta: 8px;
+  --radio-control: 6px;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-fondo: #0e1b22;
+  --color-superficie: #16262f;
+  --color-superficie-fuerte: #1f343f;
+  --color-texto: #e8f3f5;
+  --color-texto-suave: #a0b9c0;
+  --color-borde: #2e4652;
+  --color-acento: #2fb3c0;
+  --color-acento-oscuro: var(--color-acento);
+  // Lo usa el botón "+" de acciones rápidas: petróleo con texto blanco legible.
+  --color-acento-tono: #127a8a;
+  --color-error: color-mix(in srgb, var(--color-error-tono) 72%, white);
+  --color-barra: #0b2a35;
+  --color-sombra: rgb(0 0 0);
+}
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 320px;
+  margin: 0;
+}
+
+a {
+  color: var(--color-acento-oscuro);
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-acento);
+  }
+}
+
+h1,
+h2 {
+  margin: 0 0 1rem;
+  color: var(--color-texto);
+  line-height: 1.05;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+p {
+  color: var(--color-texto-suave);
+  font-size: 1rem;
+}
+
+button,
+.buttonLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-texto);
+  border-radius: var(--radio-control);
+  padding: 0.7rem 1rem;
+  color: var(--color-superficie);
+  background: var(--color-texto);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    background: var(--color-acento-oscuro);
+    color: var(--color-superficie);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-superficie);
+}
+
+th,
+td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-borde);
+  text-align: left;
+}
+
+th {
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+input {
+  accent-color: var(--color-acento);
+}
+
+// El control nativo de subida de archivos trae un botón gris del navegador que
+// rompe con el tema; se le aplica el mismo lenguaje visual del resto de botones.
+input[type="file"] {
+  &::file-selector-button {
+    margin-right: 0.6rem;
+    border: 1px solid var(--color-texto);
+    border-radius: var(--radio-control);
+    padding: 0.45rem 0.8rem;
+    color: var(--color-superficie);
+    background: var(--color-texto);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  &:hover::file-selector-button,
+  &:focus-visible::file-selector-button {
+    background: var(--color-acento-oscuro);
+    color: var(--color-superficie);
+  }
+}
+
+input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.45rem;
+}
+
+label {
+  color: var(--color-texto);
+  font-weight: 600;
+}
+
+ul {
+  margin: 0;
+}
+
+// Barra global sin sesión: misma estética que la barra con sesión (015).
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 1.25rem;
+  background: var(--color-barra);
+  color: #fff;
+}
+
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+
+  &:hover {
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+// Logo real de la app (public/logo.jpeg, 1408x768) a la izquierda de la marca.
+.site-nav__logo {
+  display: block;
+  height: 2rem;
+  width: auto;
+  border-radius: var(--radio-control);
+  object-fit: contain;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+// Los accesos públicos son botones de la barra, igual que los íconos con sesión.
+.site-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: var(--radio-control);
+  background: rgb(255 255 255 / 14%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: none;
+
+  &:hover,
+  &.is-active {
+    background: rgb(255 255 255 / 28%);
+    box-shadow: inset 0 0 0 2px var(--color-naranja-claro);
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-nav {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .site-nav__links {
+    order: 3;
+    justify-content: center;
+    width: 100%;
+    gap: 0.2rem;
+  }
+
+  .site-nav__link {
+    min-height: 2.25rem;
+    padding: 0 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .site-nav .app-header__action {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+// ---- Páginas de la app (prueba visual del tema) ----
+
+.page {
+  width: calc(100% - 2rem);
+  max-width: 560px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+
+  h1 {
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    margin-bottom: 1.5rem;
+  }
+
+  nav {
+    margin-top: 1.5rem;
+  }
+}
+
+.app-avatar {
+  display: block;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-borde);
+  background: var(--color-superficie-fuerte);
+}
+
+// Acciones en fila con separación entre controles (editar perfil:
+// selector de archivo + eliminar avatar, y guardar cambios + cancelar).
+.avatar-actions,
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+// 027 (FR-019): pie de los formularios de gasto, Cancelar a la izquierda y
+// Guardar gasto a la derecha, fuera de la tarjeta celeste.
+.expense-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.expense-form__card > .field:last-child {
+  margin-bottom: 0;
+}
+
+// FR-011 enmendada de 005: "Guardar cambios" se ve deshabilitado (gris, cursor
+// bloqueado) mientras no haya modificaciones pendientes por confirmar.
+// Cancelar en el borde izquierdo y la acción principal en el derecho.
+.form-actions--split {
+  justify-content: space-between;
+}
+
+.form-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background-color: var(--color-borde);
+  border-color: var(--color-borde);
+}
+
+// Acciones del dashboard: "Mi perfil" (link con aspecto de botón) y el botón
+// de cerrar sesión comparten fila sin quedar pegados entre sí.
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+// Formulario (TextField + RegisterForm)
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+
+  input:not([type="checkbox"]),
+  select {
+    width: 100%;
+    min-width: 0;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font: inherit;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-acento);
+      outline-offset: 2px;
+    }
+  }
+
+  &.field--invalid input:not([type="checkbox"]),
+  &.field--invalid select {
+    border-color: var(--color-error);
+  }
+}
+
+.field__hint {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 420px) {
+  .page {
+    width: calc(100% - 1rem);
+    margin: 1rem auto;
+    padding: 1.25rem;
+  }
+}
+
+.text-button {
+  align-self: flex-start;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--color-acento-oscuro);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    background: none;
+    color: var(--color-acento);
+  }
+
+  &:active {
+    transform: none;
+  }
+}
+
+p[role="alert"] {
+  color: var(--color-error);
+  font-size: 0.9rem;
+  margin: 0.1rem 0 0;
+}
+
+.form-success {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-oliva) 45%, var(--color-borde));
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-oliva) 10%, var(--color-superficie));
+  color: var(--color-texto);
+
+  h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.button-spinner {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: button-spin 0.7s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-spinner {
+    animation-duration: 1.4s;
+  }
+}
+
+fieldset {
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  padding: 0.75rem 1rem;
+  margin: 0 0 1rem;
+
+  legend {
+    color: var(--color-texto-suave);
+    font-size: 0.85rem;
+    padding: 0 0.25rem;
+  }
+
+  label {
+    margin-right: 1.25rem;
+    font-weight: 400;
+  }
+}
+
+.profile-password-caption {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+// Gastos recurrentes (specs/009-pause-recurring-expense, FR-012/FR-013)
+.recurring-list {
+  display: grid;
+  gap: 0.9rem;
+  padding: 0;
+  list-style: none;
+}
+
+.recurring-item {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0px 5px 24px color-mix(in srgb, var(--color-sombra) 17%, transparent);
+
+  p {
+    margin: 0;
+  }
+}
+
+.recurring-item__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.recurring-item__dates,
+.recurring-item__accumulated {
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.recurring-item__divider {
+  width: 100%;
+  margin: 0.85rem 0 0.35rem;
+  border: 0;
+  border-top: 2px dashed var(--color-texto-suave);
+  opacity: 0.6;
+}
+
+.recurring-item__actions,
+.recurring-item__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.recurring-item__actions {
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.recurring-item__frequency-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    font-weight: 650;
+  }
+}
+
+.recurring-item__frequency {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.recurring-item__action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  margin-top: -3px;
+}
+
+.recurring-item__action {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.recurring-item__confirm p {
+  flex-basis: 100%;
+}
+
+.recurring-status {
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--color-superficie-fuerte);
+  color: var(--color-texto);
+
+  &--ACTIVE {
+    background: var(--color-acento);
+    color: var(--color-superficie);
+  }
+
+  &--FINISHED {
+    color: var(--color-texto-suave);
+  }
+}
+
+// Buscador de usuarios (specs/008-user-search). Reuses the `.page`,
+// `.field` and button language of the register screen.
+
+.search-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.field__control {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.field__icon {
+  position: absolute;
+  top: 50%;
+  left: 0.8rem;
+  display: inline-flex;
+  color: var(--color-texto-suave);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.field__control--with-icon input:not([type="checkbox"]) {
+  padding-left: 2.5rem;
+}
+
+.users-search-page {
+  h1 {
+    margin-bottom: 0.4rem;
+  }
+}
+
+.users-search-page__lead {
+  max-width: 42ch;
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.users-search-form__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  .field {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+}
+
+.users-search-form__hint {
+  margin: 0.45rem 0 0;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+}
+
+.users-search-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-fondo) 65%, var(--color-superficie));
+  color: var(--color-texto-suave);
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.users-search-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-error) 35%, var(--color-borde));
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-error) 8%, var(--color-superficie));
+
+  strong {
+    display: block;
+    color: var(--color-error);
+    font-size: 0.9rem;
+  }
+
+  p {
+    margin: 0.15rem 0 0;
+    color: var(--color-texto);
+    font-size: 0.9rem;
+  }
+}
+
+.users-search-banner__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) 14%, transparent);
+}
+
+.users-search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 2rem 1.25rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-fondo) 60%, var(--color-superficie));
+  text-align: center;
+
+  h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+
+  p {
+    max-width: 38ch;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.users-search-empty--initial {
+  border-style: dashed;
+}
+
+.users-search-empty__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 999px;
+  color: var(--color-acento-oscuro);
+  background: color-mix(in srgb, var(--color-acento) 12%, transparent);
+
+  .search-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+}
+
+.users-search__results {
+  margin-top: 1.5rem;
+}
+
+.users-search__results-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+}
+
+.users-search__count {
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.users-search__friendship-note {
+  margin: 0.65rem 0 0;
+  color: var(--color-texto-suave);
+  font-size: 0.78rem;
+}
+
+.users-search__send-feedback {
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &--error {
+    border: 1px solid color-mix(in srgb, var(--color-error) 35%, var(--color-borde));
+    color: var(--color-error);
+    background: color-mix(in srgb, var(--color-error) 8%, var(--color-superficie));
+  }
+}
+
+.user-results {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0;
+  list-style: none;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-fondo);
+}
+
+.user-card__avatar {
+  flex: 0 0 auto;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--color-borde);
+  border-radius: 50%;
+  background: var(--color-superficie-fuerte);
+  object-fit: cover;
+}
+
+.user-card__identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  strong {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+  }
+
+  span {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+}
+
+.user-card__action {
+  flex: 0 0 auto;
+  gap: 0.35rem;
+  border: 1px solid var(--color-acento);
+  border-radius: var(--radio-control);
+  padding: 0.45rem 0.65rem;
+  color: var(--color-acento-oscuro);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-superficie);
+    background: var(--color-acento);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+  }
+
+  &:disabled:hover {
+    color: var(--color-acento-oscuro);
+    background: transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .users-search-form__row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-card {
+    flex-wrap: wrap;
+  }
+
+  .user-card__identity {
+    flex-basis: calc(100% - 3.6rem);
+  }
+
+  .user-card__action {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+// Pantalla de Amigos: tarjetas separadas como la pantalla principal.
+//   [               Amigos               ]
+//   [ Mis amigos ] [ Solicitudes pendientes ]
+// En pantallas angostas las tarjetas se apilan (amigos arriba).
+.friends-page {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+  width: calc(100% - 2rem);
+  max-width: 64rem;
+  margin: 1.25rem auto 5.5rem;
+}
+
+.friends-page__header,
+.friends-page .friends-list,
+.friends-page .friends-requests {
+  min-width: 0;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+}
+
+.friends-page__header {
+  h1 {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+}
+
+.friends-page__lead {
+  max-width: 60ch;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.friends-page__columns {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .friends-page__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// Buscador de cada tarjeta (ListSearch), justo debajo del título. Si lleva un
+// selector de orden al lado, en pantallas angostas el selector baja de línea.
+.list-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+}
+
+.list-search__sort {
+  flex: 0 0 auto;
+  max-width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: -2px;
+  }
+}
+
+.list-search__input {
+  display: block;
+  flex: 1 1 12rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font: inherit;
+  font-size: 0.9rem;
+
+  &::placeholder {
+    color: var(--color-texto-suave);
+  }
+
+  // Hacia adentro: el contenedor recorta lo que sobresale (ver abajo).
+  &:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: -2px;
+  }
+}
+
+// Scroll dentro de cada tarjeta: con dos columnas, cada lista muestra unas cinco
+// personas (la siguiente asoma, así se nota que hay más) y el resto se scrollea.
+// En pantallas bajas el tope pasa a ser el 60% del alto para que la tarjeta
+// entre en pantalla. En una sola columna (celular) no hay scroll interno: se
+// scrollea la página, que es más cómodo con el dedo.
+// El buscador reserva el mismo hueco de barra que la lista (overflow hidden +
+// scrollbar-gutter), así buscador y tarjetas miden siempre lo mismo, con o sin
+// scroll y sea cual sea el ancho de la barra del navegador.
+@media (min-width: 960px) {
+  .friends-page .friends-requests__list,
+  .friends-page .list-search {
+    padding-right: 0.35rem;
+    scrollbar-gutter: stable;
+  }
+
+  .friends-page .friends-requests__list {
+    max-height: min(27rem, 60vh);
+    margin: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .friends-page .list-search {
+    overflow-y: hidden;
+  }
+}
+
+// En la columna de solicitudes conviven dos botones: la identidad cede antes
+// de mandarlos a una segunda línea (solo pasa en pantallas muy angostas).
+.friends-requests .friend-request-card__identity {
+  flex-basis: 8rem;
+}
+
+@media (max-width: 420px) {
+  .friends-page {
+    width: calc(100% - 1rem);
+    margin-top: 1rem;
+  }
+
+  .friends-page__header,
+  .friends-page .friends-list,
+  .friends-page .friends-requests {
+    padding: 1rem;
+  }
+}
+
+// ---- Mis amigos (specs/013-friends-list) ----
+// Reuses the "Solicitudes" header, states and card styles; only the section
+// spacing, the empty-state link and the "Amigos desde" label are new.
+.friends-list {
+  margin: 0.5rem 0 2rem;
+}
+
+.friends-list__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+.friends-list__search-link {
+  color: var(--color-acento-oscuro);
+  font-weight: 700;
+}
+
+// "Amigos desde …": tercera línea de la identidad, debajo del correo.
+.friend-card__since {
+  color: var(--color-texto-suave);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+// Delete action of each friend (feature 016): outlined danger button that
+// leaves the card visible while the deletion is in progress. Sits at the right
+// of the card, where "Amigos desde" used to be.
+.friend-card__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.friend-card__delete {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-error) 55%, var(--color-borde));
+  border-radius: var(--radio-control);
+  color: var(--color-error);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  &:hover:enabled {
+    color: var(--color-superficie);
+    background: var(--color-error);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+// Base de todos los modales de confirmación (ConfirmModal). La "×" es la única
+// forma de cancelar; Confirmar es rojo, porque confirma una acción destructiva
+// (023 FR-002). Sus estilos de tecla viven en
+// detalles.scss.
+.confirm-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--color-texto) 45%, transparent);
+}
+
+.confirm-modal {
+  position: relative;
+  width: min(24rem, 100%);
+  // Un modal alto se scrollea dentro de la tarjeta en vez de salirse del
+  // viewport (028: configuración de deudas y recordatorios).
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 18px 45px color-mix(in srgb, var(--color-texto) 25%, transparent);
+
+  h3 {
+    margin: 0 2.25rem 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
+
+.confirm-modal--wide {
+  width: min(32rem, 100%);
+}
+
+.confirm-modal__close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio-control);
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-texto-suave);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 120ms ease;
+
+  // Sin fondo ni círculo: solo la "×" se pinta de naranja (claro y oscuro).
+  &:hover:enabled,
+  &:active:enabled {
+    background: transparent;
+    color: var(--color-naranja);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-naranja);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.confirm-modal__error {
+  margin-top: 0.75rem !important;
+  color: var(--color-error);
+}
+
+.confirm-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}
+
+.confirm-modal__confirm {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--color-error);
+  border-radius: var(--radio-control);
+  background: var(--color-error);
+  color: var(--color-superficie);
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  &:hover:enabled {
+    border-color: color-mix(in srgb, var(--color-error) 80%, black);
+    background: color-mix(in srgb, var(--color-error) 80%, black);
+    color: var(--color-superficie);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+.friends-requests__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+}
+
+.friends-requests__count {
+  color: var(--color-texto-suave);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.friends-requests__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1rem;
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-fondo) 65%, var(--color-superficie));
+  color: var(--color-texto-suave);
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.friends-requests__error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-error) 35%, var(--color-borde));
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-error) 8%, var(--color-superficie));
+
+  p {
+    margin: 0;
+    color: var(--color-texto);
+    font-size: 0.9rem;
+  }
+}
+
+.friends-requests__retry {
+  border: 1px solid var(--color-acento);
+  border-radius: var(--radio-control);
+  padding: 0.45rem 0.75rem;
+  color: var(--color-acento-oscuro);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  &:hover {
+    color: var(--color-superficie);
+    background: var(--color-acento);
+  }
+}
+
+.friends-requests__empty {
+  margin: 0;
+  padding: 2rem 1.25rem;
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: color-mix(in srgb, var(--color-fondo) 60%, var(--color-superficie));
+  color: var(--color-texto-suave);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.friends-requests__list {
+  display: grid;
+  // minmax(0, 1fr) keeps the cards from growing past the panel with their
+  // min-content width (a plain 1fr track behaves like minmax(auto, 1fr)).
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0;
+  list-style: none;
+}
+
+.friend-request-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+  gap: 0.8rem;
+  padding: 0.85rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-fondo);
+}
+
+.friend-request-card__avatar {
+  flex: 0 0 auto;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--color-borde);
+  border-radius: 50%;
+  background: var(--color-superficie-fuerte);
+  object-fit: cover;
+}
+
+.friend-request-card__identity {
+  display: flex;
+  // When the name/email would get narrower than this basis, the status and
+  // the actions wrap to a second line instead of overflowing the card.
+  flex: 1 1 13rem;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  strong {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+  }
+
+  span {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+}
+
+// Response actions of each pending request (feature 012, FR-012): a la
+// derecha de la tarjeta, en la misma línea que el nombre.
+.friend-request-card__actions {
+  display: flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+  gap: 0.4rem;
+
+  button {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--color-acento);
+    border-radius: var(--radio-control);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+}
+
+.friend-request-card__accept,
+.friend-request-card__reject {
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+.friend-request-card__accept {
+  color: var(--color-superficie);
+  background: var(--color-acento);
+
+  &:hover:enabled {
+    background: var(--color-acento-oscuro);
+  }
+}
+
+.friend-request-card__reject {
+  color: var(--color-acento-oscuro);
+  background: transparent;
+
+  &:hover:enabled {
+    color: var(--color-superficie);
+    background: var(--color-acento);
+  }
+}
+
+// Notice of a failed response (feature 012, FR-014..FR-016): conflict (409/404)
+// and network error keep the row visible when it applies.
+.friends-requests__notice {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-tarjeta);
+  font-size: 0.9rem;
+
+  &--conflict,
+  &--error {
+    border: 1px solid color-mix(in srgb, var(--color-error) 35%, var(--color-borde));
+    background: color-mix(in srgb, var(--color-error) 8%, var(--color-superficie));
+    color: var(--color-texto);
+  }
+}
+
+// ---- Gestión de grupos (specs/010-groups-management, US1–US10) ----
+
+// Contenedor de la vista de información con tarjetas separadas: cada bloque
+// (identidad, miembros, acciones, administración) respira por su cuenta.
+.group-page {
+  section + section,
+  header + section,
+  section + header {
+    margin-top: 1.25rem;
+  }
+}
+
+.group-page__back {
+  margin-bottom: 1rem;
+
+  a {
+    color: var(--color-acento-oscuro);
+  }
+}
+
+// Tarjeta genérica del módulo: fondo fuerte, borde redondeado y padding
+// interior coherente con .page pero a escala menor (una "sub-página").
+.group-card {
+  background: var(--color-superficie-fuerte);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  padding: 1.25rem;
+
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+    color: var(--color-texto);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-superficie);
+  }
+}
+
+.group-description {
+  margin-top: 0.5rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+// Accesibilidad: etiquetas solo para lectores de pantalla.
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .group-card {
+    padding: 1rem;
+  }
+}
+
+// ---- Historial de actividad del grupo (specs/014-group-activity-history) ----
+
+.group-history__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.group-history__filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+
+  select {
+    min-width: 12rem;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-superficie);
+    color: var(--color-texto);
+    font: inherit;
+  }
+}
+
+.group-history__loading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-texto-suave);
+}
+
+.group-history__empty {
+  padding: 1.25rem;
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  text-align: center;
+  color: var(--color-texto-suave);
+}
+
+.group-history__error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--color-error);
+
+  p {
+    margin: 0;
+  }
+}
+
+.group-history__day + .group-history__day {
+  margin-top: 1rem;
+}
+
+.group-card .group-history__day-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--color-texto);
+}
+
+.group-history__entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.group-card .group-history__entries li.group-history__entry {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-superficie);
+  // fila: frase a la izquierda, hora a la derecha; marca de color por tipo
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  border-left: 4px solid var(--color-borde);
+
+  p {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  time {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--color-texto-suave);
+  }
+}
+
+.group-card .group-history__entries li.group-history__entry--member_added {
+  border-left-color: var(--color-oliva);
+}
+
+.group-card .group-history__entries li.group-history__entry--member_removed,
+.group-card .group-history__entries li.group-history__entry--member_left {
+  border-left-color: var(--color-error);
+}
+
+.group-card .group-history__entries li.group-history__entry--expense_created,
+.group-card .group-history__entries li.group-history__entry--payment_made {
+  border-left-color: var(--color-acento);
+}
+
+.group-history__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  color: var(--color-texto-suave);
+}
+
+@media (max-width: 480px) {
+  .group-card .group-history__entries li.group-history__entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+// Enlace "Ir a Pantalla principal" sobre el título de cada sección.
+.home-link {
+  display: inline-block;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}

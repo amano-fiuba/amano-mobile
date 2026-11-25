@@ -1,0 +1,1636 @@
+// Pantallas de grupos: listado ("Mis grupos") y detalle de un grupo, con el
+// mismo lenguaje visual que las filas de grupo de la pantalla principal.
+
+.groups-page {
+  max-width: 760px;
+}
+
+.groups-page__no-matches {
+  margin: 0;
+  padding: 1rem 0;
+  color: var(--color-texto-suave);
+  text-align: center;
+}
+
+.groups-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin-bottom: 0;
+  }
+}
+
+.groups-page__count {
+  margin: 0.15rem 0 0;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.groups-page__empty {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 2.5rem 1rem;
+  border: 1px dashed var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  text-align: center;
+
+  p {
+    margin: 0;
+    color: var(--color-texto-suave);
+  }
+}
+
+.group-rows {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.group-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-weight: 400;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+
+  &:hover {
+    border-color: var(--color-acento);
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+  }
+
+  &:hover .group-row__chevron {
+    transform: translateX(2px);
+  }
+}
+
+.group-row__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie-fuerte);
+  color: var(--color-acento-oscuro);
+  font-size: 1.15rem;
+  font-weight: 700;
+  object-fit: cover;
+}
+
+.group-row:hover span.group-row__mark {
+  background: var(--color-superficie);
+}
+
+.group-row__body {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 0.15rem;
+  min-width: 0;
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+}
+
+.group-row__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.6rem;
+
+  strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.group-row__description {
+  overflow: hidden;
+  color: var(--color-texto-suave);
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.group-row__chevron {
+  flex: 0 0 auto;
+  color: var(--color-texto-suave);
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.group-row--skeleton {
+  animation: group-row-pulse 1.4s ease-in-out infinite;
+}
+
+.group-row__line {
+  display: block;
+  width: 55%;
+  height: 0.8rem;
+  border-radius: 0.25rem;
+  background: var(--color-superficie-fuerte);
+
+  &--short {
+    width: 35%;
+  }
+}
+
+@keyframes group-row-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+// Chips de rol, compartidos por el listado y el detalle.
+.role-chip {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+  background: var(--color-superficie-fuerte);
+  color: var(--color-texto-suave);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.group-row:hover .role-chip--member {
+  background: var(--color-superficie);
+}
+
+.role-chip--admin,
+.role-chip--you {
+  background: color-mix(in srgb, var(--color-acento) 18%, transparent);
+  color: var(--color-acento-oscuro);
+}
+
+.role-chip--simulated {
+  background: color-mix(in srgb, var(--color-texto-suave) 15%, transparent);
+  font-style: italic;
+}
+
+.group-edit-form {
+  display: grid;
+  flex: 1 1 100%;
+  gap: 0.75rem;
+  max-width: 34rem;
+
+  label {
+    display: grid;
+    gap: 0.25rem;
+    font-weight: 600;
+  }
+
+  input:not([type='file']):not([type='checkbox']):not([type='radio']),
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font: inherit;
+    font-weight: 400;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .group-photo .group-action {
+    justify-self: start;
+  }
+}
+
+// Mientras se edita, el formulario ocupa su propia fila del encabezado.
+// Botones del módulo: la acción secundaria y la destructiva.
+.group-action svg {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+}
+
+.group-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  padding: 0.5rem 0.8rem;
+  background: transparent;
+  color: var(--color-acento-oscuro);
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  &:hover {
+    border-color: var(--color-acento);
+    background: var(--color-superficie-fuerte);
+    color: var(--color-acento-oscuro);
+  }
+}
+
+// Variante destructiva de .group-action ("Salir"): mismo recuadro, letras y
+// hover en rojo (el hover naranja queda para las acciones no destructivas).
+.group-action--danger {
+  border-color: color-mix(in srgb, var(--color-error) 55%, var(--color-borde));
+  color: var(--color-error);
+}
+
+// Detalle de un grupo.
+.group-detail {
+  display: grid;
+  gap: 1rem;
+  width: calc(100% - 2rem);
+  max-width: 76rem;
+  margin: 1.25rem auto 5.5rem;
+}
+
+.group-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding: 1.1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+
+  .group-admin-panel {
+    flex: 1 0 100%;
+    margin-block: 0;
+  }
+}
+
+// Miembros, gastos y actividad, con las proporciones de la pantalla principal.
+.group-board {
+  display: grid;
+  grid-template-columns: minmax(18rem, 22rem) minmax(0, 1fr) minmax(15rem, 20rem);
+  align-items: start;
+  gap: 1rem;
+
+  .member-row__body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.member-balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .group-action {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+.group-feed {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.6rem 0;
+    overflow-wrap: anywhere;
+    font-size: 0.92rem;
+  }
+
+  li + li {
+    border-top: 1px solid var(--color-borde);
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+}
+
+.group-feed__note {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 960px) {
+  .group-detail {
+    width: calc(100% - 1.5rem);
+  }
+
+  .group-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.group-detail .group-page__back {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.group-hero__identity {
+  display: flex;
+  // Ocupa el espacio libre: si midiera solo su contenido, un texto corto
+  // (rol "Miembro") mandaba el nombre debajo de la foto.
+  flex: 1 1 20rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.group-hero__text {
+  display: grid;
+  flex: 1 1 12rem;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.group-detail .group-hero__text h1 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.group-detail .group-description {
+  margin: 0;
+  color: var(--color-texto-suave);
+  overflow-wrap: anywhere;
+}
+
+.group-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.group-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+// Columna derecha del encabezado: las acciones que correspondan según el rol y
+// la configuración (historial, editar, configuración) y "Salir" debajo, a la
+// derecha, siempre a la misma distancia.
+.group-hero__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+.leave-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+// La sección no genera caja: así un error de la foto ocupa todo el ancho del
+// encabezado en vez de quedar encajonado bajo la imagen.
+.group-photo {
+  display: contents;
+}
+
+.group-photo__frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: 6rem;
+  height: 6rem;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-tarjeta);
+    background: var(--color-superficie-fuerte);
+    object-fit: cover;
+  }
+}
+
+.group-photo__change {
+  position: absolute;
+  right: -0.4rem;
+  bottom: -0.4rem;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid var(--color-superficie);
+  border-radius: 50%;
+  padding: 0;
+  background: var(--color-acento-oscuro);
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.group-photo__error {
+  flex: 1 0 100%;
+  order: 3;
+  margin: 0;
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
+.group-detail__section {
+  min-width: 0;
+  padding: 1.1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+}
+
+.group-detail__section-header {
+  display: flex;
+  min-height: 2.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.9rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+}
+
+// Sección "Gastos" del detalle (specs/017-debt-states, FR-021).
+.group-expenses__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.4rem;
+
+  p {
+    margin: 0;
+    color: var(--color-texto-suave);
+    font-size: 0.9rem;
+  }
+}
+
+.group-expenses__more {
+  margin-top: 0.4rem;
+}
+
+.group-expenses__history {
+  color: var(--color-acento-oscuro);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+[data-testid='debt-settings-dialog'] {
+  .group-edit-form {
+    gap: 0.5rem;
+  }
+
+  .group-edit-form .debt-settings__toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .debt-settings__toggle input[type='checkbox'] {
+    width: auto;
+    margin: 0;
+    accent-color: var(--color-acento);
+  }
+
+  h4 {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  // El `.field` global trae margin-bottom 1rem; con el gap del formulario
+  // dejaba un hueco grande antes de "Recordatorios de deudas".
+  .group-edit-form .field {
+    margin-bottom: 0;
+  }
+
+  .form-actions {
+    margin-top: 0.85rem;
+  }
+}
+
+.group-expenses__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.group-admin-panel__subsection {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-borde);
+}
+
+.group-admin-panel {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-top: 0;
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-fondo);
+}
+
+.group-admin-panel {
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+  }
+
+  input[type='text'] {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    padding: 0.6rem 0.75rem;
+    background: var(--color-superficie);
+    color: var(--color-texto);
+    font: inherit;
+  }
+
+  p {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+.group-permissions {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+
+  button {
+    margin-top: 0.5rem;
+  }
+}
+
+// Modal "Agregar amigos a {grupo}" (AddMemberView).
+.add-members {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+
+  .list-search {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.add-members__status {
+  margin: 0;
+  padding: 0.5rem 0;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+
+  button {
+    margin-top: 0.5rem;
+  }
+}
+
+// Unas cuatro o cinco filas y el resto se scrollea.
+.add-members__list {
+  display: grid;
+  gap: 0.4rem;
+  max-height: min(20rem, 50vh);
+  margin: 0;
+  padding: 0 0.35rem 0 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.add-members__row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-superficie);
+
+  img {
+    flex: 0 0 auto;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--color-superficie-fuerte);
+  }
+
+  .group-action {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  // Ya es miembro: fila sombreada, sin acción.
+  &.is-member {
+    background: var(--color-superficie-fuerte);
+    opacity: 0.8;
+  }
+}
+
+.add-members__identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+}
+
+.add-members__added {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.add-members__simulated {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-borde);
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .text-button {
+    display: inline;
+    font-weight: 700;
+  }
+
+  form {
+    display: grid;
+    gap: 0.4rem;
+    justify-items: start;
+
+    label {
+      font-size: 0.85rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-control);
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      font: inherit;
+    }
+
+    button {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.member-rows {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Con las tres columnas, la lista de miembros scrollea dentro de su tarjeta
+// (unos cinco miembros, o el 60 % del alto si la pantalla es baja). Apiladas
+// (≤ 960px) se scrollea la página, como en Amigos.
+@media (min-width: 961px) {
+  .group-board .member-rows {
+    max-height: min(27rem, 60vh);
+    padding-right: 0.35rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-fondo);
+}
+
+.member-row__avatar {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-superficie-fuerte);
+  object-fit: cover;
+}
+
+.member-row__body {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  min-width: 0;
+}
+
+// Copiar CBU/CVU y menú "⋯" comparten la misma altura y el borde derecho.
+.member-row__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.member-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.member-row__chips {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.35rem;
+}
+
+.member-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.member-menu__trigger {
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-color: transparent;
+  padding: 0;
+  background: transparent;
+  color: var(--color-texto-suave);
+  font-size: 1.25rem;
+  line-height: 1;
+
+  &:hover,
+  &[aria-expanded='true'] {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+}
+
+.member-menu__panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  display: grid;
+  gap: 0.15rem;
+  width: min(16rem, calc(100vw - 3rem));
+  padding: 0.35rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-sombra) 22%, transparent);
+}
+
+// Fijado a la pantalla (MemberActionsMenu calcula top/right desde el botón),
+// para que no lo recorte la lista de miembros con scroll.
+.member-menu__panel--fixed {
+  position: fixed;
+  z-index: 20;
+}
+
+.member-menu__item {
+  width: 100%;
+  border-color: transparent;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  background: transparent;
+  color: var(--color-texto);
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &:hover {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+
+  &--danger,
+  &--danger:hover {
+    color: var(--color-error);
+  }
+}
+
+@media (max-width: 480px) {
+  .group-row {
+    gap: 0.7rem;
+    padding: 0.75rem;
+  }
+
+  .group-row__title,
+  .member-row__body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .group-row__chevron {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-row,
+  .group-row__chevron {
+    transition: none;
+  }
+
+  .group-row--skeleton {
+    animation: none;
+  }
+}
+
+// Pantalla "Registrar pago" (specs/018-register-payment, FR-018).
+.group-payment__form {
+  display: grid;
+  gap: 1rem;
+}
+
+.group-payment__summary {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.group-payment__figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0;
+
+  div {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+  }
+
+  dt {
+    color: var(--color-texto-suave);
+    font-size: 0.8rem;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.group-payment__preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.group-payment__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+
+  a {
+    color: var(--color-acento-oscuro);
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 600px) {
+  .group-payment__figures {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Crear grupo: lista de amigos con casillas (spec 023 US5)
+@media (max-width: 720px) {
+  // Deja "Crear grupo" por encima del botón flotante al llegar al final.
+  .page.create-group {
+    margin-bottom: 6rem;
+  }
+}
+
+.create-group__members {
+  display: grid;
+  gap: 0.75rem;
+
+  label {
+    margin-right: 0;
+  }
+
+  .group-action {
+    justify-self: start;
+  }
+}
+
+.friend-picker {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.friend-picker__filter {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+
+  input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-control);
+    background: var(--color-superficie);
+    color: var(--color-texto);
+    font: inherit;
+  }
+}
+
+// Fichas de las personas elegidas en Crear grupo (amigos y perfiles simulados):
+// siempre visibles aunque la lista esté filtrada; la ✕ deshace la elección.
+.people-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.people-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 100%;
+  padding: 0.2rem 0.25rem 0.2rem 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-acento) 45%, var(--color-borde));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-acento) 12%, var(--color-superficie));
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  img {
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  button {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    box-shadow: none;
+    color: var(--color-texto-suave);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--color-error) 14%, transparent);
+      color: var(--color-error);
+    }
+  }
+}
+
+// Perfil simulado: borde punteado, para distinguirlo de un amigo.
+.people-chip--simulated {
+  border-style: dashed;
+  background: var(--color-superficie);
+}
+
+.friend-picker__status {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--color-texto-suave);
+}
+
+.create-group__simulated {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.create-group__count {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.88rem;
+}
+
+.create-group__error {
+  margin: 0;
+  color: var(--color-error);
+}
+
+
+/* Debts and payments screen (specs/022-group-debt-management, T074/T075). */
+.group-expense__status--reported { font-style: italic; }
+.group-expense__status--overdue { font-weight: 700; }
+.group-expense__status--verified { font-weight: 600; }
+
+.group-debts__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.group-debts__tabs [role='tab'][aria-selected='true'] {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.group-debts__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.group-debts__list > li,
+.group-debts__debt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+}
+
+// Deep link de una notificación de deuda (035 FR-017).
+.group-debts__debt.is-highlighted {
+  outline: 2px solid var(--color-primario, #356);
+  outline-offset: 2px;
+  background: var(--color-fondo-sutil, transparent);
+}
+
+.group-debts__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.group-debts__debt .group-confirm {
+  flex-basis: 100%;
+}
+
+.group-debts__state,
+.group-debts__note {
+  margin: 0.5rem 0;
+}
+
+.group-debts__error {
+  margin: 0 0 0.75rem;
+}
+
+/* Narrow screens: the tabs collapse into a vertical list. */
+@media (max-width: 600px) {
+  .group-debts__tabs {
+    flex-direction: column;
+  }
+
+  .group-debts__tabs [role='tab'] {
+    width: 100%;
+    text-align: left;
+  }
+
+  .group-debts__list > li,
+  .group-debts__debt {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* New expense form: main data on the left, split panel on the right. */
+.page.group-expense--wide {
+  max-width: 1040px;
+}
+
+.group-expense__form {
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.group-expense__form-error,
+.group-expense__actions {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+@media (min-width: 820px) {
+  .group-expense--wide .group-expense__form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+
+  // 027 (FR-023/FR-024): the left column sets the height. The panel does not add
+  // to the row (height 0, at least the row height) and only its member list
+  // scrolls, so the footer buttons stay right under both columns.
+  .group-expense--wide .group-expense__form--fixed {
+    align-items: stretch;
+
+    .group-expense__split {
+      height: 0;
+      min-height: 100%;
+      overflow: hidden;
+    }
+
+    .group-expense__split fieldset.group-expense__participants {
+      display: flex;
+      flex: 1 1 0;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    .group-card ul.group-expense__rows {
+      flex: 1 1 0;
+      align-content: start;
+      min-height: 0;
+      overflow-y: auto;
+      // Room for the focus ring and the scrollbar.
+      padding: 2px 0.35rem 2px 2px;
+    }
+  }
+}
+
+.group-expense__main > .field:last-child {
+  margin-bottom: 0;
+}
+
+.group-expense__split {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  fieldset {
+    margin: 0;
+  }
+
+  > .field__hint {
+    margin: 0;
+  }
+}
+
+// "Gasto compartido" switch: a styled checkbox with role="switch".
+.group-expense__switch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    appearance: none;
+    flex: none;
+    position: relative;
+    width: 2.6rem;
+    height: 1.45rem;
+    margin: 0;
+    border-radius: 999px;
+    background: var(--color-borde);
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.15rem;
+      left: 0.15rem;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      background: var(--color-superficie);
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+      transition: transform 0.15s ease;
+    }
+
+    &:checked {
+      background: var(--color-acento);
+    }
+
+    &:checked::after {
+      transform: translateX(1.15rem);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-acento);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Split method as a segmented control.
+.group-expense__methods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--radio-control);
+  background: var(--color-superficie);
+
+  legend {
+    padding: 0 0 0.4rem;
+    color: var(--color-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  label.group-expense__method {
+    margin: 0;
+    padding: 0.45rem 0.4rem;
+    border-radius: calc(var(--radio-control) - 2px);
+    color: var(--color-texto-suave);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      color: var(--color-texto);
+    }
+
+    &.is-active {
+      background: var(--color-acento-oscuro);
+      color: var(--color-superficie);
+    }
+
+    &:has(input:focus-visible) {
+      outline: 2px solid var(--color-acento);
+      outline-offset: 1px;
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+// The participants list is the panel itself: no extra frame around it.
+.group-expense__split fieldset.group-expense__participants {
+  padding: 0;
+  border: 0;
+}
+
+// One line per participant: name | control (custom / percentage) | amount.
+// The list owns the columns and every row is a subgrid, so the controls line up
+// across rows and the amount column only takes space once there are amounts
+// (until then the slider uses that width).
+.group-card ul.group-expense__rows {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.35rem 0.6rem;
+
+  &.group-expense__rows--custom {
+    grid-template-columns: fit-content(7.5rem) minmax(0, 1fr) auto;
+  }
+
+  // Fixed amount column: large amounts never eat the slider's width.
+  &.group-expense__rows--percentage {
+    grid-template-columns: fit-content(7.5rem) minmax(0, 1fr) 9.5rem;
+  }
+
+  li.group-expense__row {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: center;
+    row-gap: 0.35rem;
+    // 027 (FR-022): the same height in "Partes iguales", "Personalizado" and
+    // "Porcentajes" (the height of a row with an input), so switching methods
+    // does not move the list.
+    min-height: var(--split-row-height, 3.25rem);
+    padding: 0.4rem 0.6rem;
+
+    &.is-excluded {
+      display: flex;
+      background: transparent;
+      border-style: dashed;
+
+      .group-expense__participant {
+        color: var(--color-texto-suave);
+      }
+    }
+  }
+}
+
+fieldset label.group-expense__participant {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.group-expense__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Banknote icon next to the payer's name (replaces the "(pagó)" text).
+.group-expense__payer-tag {
+  display: inline-flex;
+  flex: none;
+  margin-left: 0.3rem;
+  color: var(--color-acento);
+
+  svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+}
+
+.group-expense__share {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+
+  > span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.group-expense__share-converted {
+  color: var(--color-texto-suave);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.group-expense__row-control {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.group-expense__unit {
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.group-expense__split-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 1px;
+  }
+}
+
+.group-expense__split-input--percent {
+  flex: 0 0 3.4rem;
+  text-align: right;
+}
+
+.group-expense__slider {
+  flex: 1;
+  min-width: 0;
+  height: 1.5rem;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+
+  &::-webkit-slider-runnable-track {
+    height: 0.4rem;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--color-acento) var(--fill, 0%), var(--color-borde) var(--fill, 0%));
+  }
+
+  &::-moz-range-track {
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-borde);
+  }
+
+  &::-moz-range-progress {
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-acento);
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: -0.35rem;
+    border: 2px solid var(--color-superficie);
+    border-radius: 50%;
+    background: var(--color-acento-oscuro);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+  }
+
+  &::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--color-superficie);
+    border-radius: 50%;
+    background: var(--color-acento-oscuro);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+    border-radius: var(--radio-control);
+  }
+}
+
+.group-expense__difference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-control);
+  background: var(--color-superficie);
+  font-size: 0.9rem;
+
+  p {
+    margin: 0;
+    color: var(--color-texto-suave);
+  }
+
+  .group-expense__difference-main {
+    color: var(--color-texto);
+    font-weight: 600;
+  }
+
+  &.is-complete {
+    border-color: var(--color-oliva);
+
+    .group-expense__difference-main {
+      color: var(--color-oliva);
+    }
+  }
+}
+
+.group-expense__meter {
+  flex-basis: 100%;
+  height: 0.3rem;
+  margin-bottom: 0.15rem;
+  border-radius: 999px;
+  background: var(--color-borde);
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 100%;
+    background: var(--color-acento);
+    transition: width 0.15s ease;
+  }
+
+  .is-complete & span {
+    background: var(--color-oliva);
+  }
+}
+
+.group-expense__preview-note,
+.group-expense__quote-note {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+}
+
+.group-expense__difference .group-expense__fill {
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+// Narrow screens: the name takes its own line, control and amount below.
+@media (max-width: 560px) {
+  .group-card ul.group-expense__rows {
+    &.group-expense__rows--custom,
+    &.group-expense__rows--percentage {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      .group-expense__participant {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-expense__switch input[type="checkbox"],
+  .group-expense__switch input[type="checkbox"]::after,
+  .group-expense__meter span {
+    transition: none;
+  }
+}

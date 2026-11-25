@@ -1,0 +1,148 @@
+// Campo de fecha con calendario (027, FR-010). El ícono va dentro del campo, a
+// la derecha; el calendario se abre debajo como un panel flotante.
+.date-field {
+  position: relative;
+}
+
+.date-field__control {
+  position: relative;
+
+  input {
+    padding-right: 2.75rem !important;
+  }
+}
+
+button.date-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--color-texto-suave);
+  transform: translateY(-50%);
+
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &[aria-expanded='true'] {
+    background: var(--color-superficie-fuerte);
+    color: var(--color-texto);
+  }
+}
+
+.date-field__popover {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% - 0.5rem);
+  right: 0;
+  width: 18.5rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 12px 28px rgb(15 30 50 / 22%);
+}
+
+.date-field__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.date-field__month {
+  margin: 0;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+button.date-field__nav {
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--color-texto);
+  font-size: 1.25rem;
+  line-height: 1;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: var(--color-superficie-fuerte);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.date-field__grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th {
+    padding-bottom: 0.3rem;
+    color: var(--color-texto-suave);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  td {
+    padding: 0.1rem;
+    text-align: center;
+  }
+}
+
+button.date-field__day {
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 0;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-texto);
+  font-size: 0.85rem;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: var(--color-superficie-fuerte);
+  }
+
+  &.is-today {
+    border-color: var(--color-acento);
+    font-weight: 700;
+  }
+
+  &.is-selected,
+  &.is-selected:hover {
+    border-color: var(--color-acento-oscuro);
+    background: var(--color-acento-oscuro);
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,43 @@
+// Centrado sin transform para que la animación de entrada pueda usarlo.
+.snackbar {
+  position: fixed;
+  z-index: 1100;
+  right: 0;
+  bottom: 1.5rem;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  margin-inline: auto;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-oliva) 45%, var(--color-borde));
+  border-left: 0.3rem solid var(--color-oliva);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-sombra) 22%, transparent);
+  color: var(--color-texto);
+  animation: snackbar-in 180ms ease-out;
+
+  .text-button {
+    flex: none;
+    align-self: center;
+  }
+
+  // Deja libre el botón fijo de acciones rápidas.
+  @media (max-width: 640px) {
+    bottom: 5.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes snackbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
